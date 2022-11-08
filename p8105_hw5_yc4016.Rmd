@@ -65,6 +65,14 @@ homicide_number =
 homicide_number
 ```
 
+```{r}  
+homicide_number_unsolved = 
+  homicide_df %>% 
+  group_by(city_state, homicide_situation) %>% 
+    count(homicide_situation)
+
+homicide_number_unsolved
+```
 
 
 
