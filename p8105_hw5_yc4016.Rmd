@@ -56,24 +56,16 @@ homicide_df =
 homicide_df
 ```
 
+##### Find total number of homicides by cities and total number of unsolved homicides by cities. 
 ```{r}
 homicide_number = 
   homicide_df %>% 
   group_by(city_state) %>% 
-  count(city_state)
+  summarize(total_homicide = n(),
+            total_homicide_unsolved = sum(homicide_situation == "unsolved"))
 
 homicide_number
 ```
-
-```{r}  
-homicide_number_unsolved = 
-  homicide_df %>% 
-  group_by(city_state, homicide_situation) %>% 
-    count(homicide_situation)
-
-homicide_number_unsolved
-```
-
 
 
 
