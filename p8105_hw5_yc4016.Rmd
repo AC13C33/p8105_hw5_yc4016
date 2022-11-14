@@ -67,7 +67,7 @@ homicide_number =
 homicide_number
 ```
 
-
+#### Estimate the proportion of homicides that are unsolved for baltimore.
 ```{r}
 baltimore = 
   homicide_number %>% 
@@ -75,16 +75,22 @@ baltimore =
 
 baltimore
 
-```
-
-
-```{r}
 prop.test(baltimore %>% pull(total_homicide_unsolved), 
           baltimore %>% pull(total_homicide)) %>% 
 broom::tidy() 
 ```
 
+#### Estimate the proportion of unsolved homicides and the confidence interval for each of the cities.
+```{r}
+each_cities = 
+  homicide_number %>% 
+  mutate(prop_cities = map2(.x = total_homicide_unsolved, .y = total_homicide, ~prop.test(x = .x, n = .y)),
+         tidy_cities = map(.x = prop_cities, ~ broom::tidy(.x))) %>% 
+  unnest(tidy_cities) %>% 
+  select(-prop_cities, city_state, estimate, conf.low, conf.high) 
 
+each_cities
+```
 
 
 
