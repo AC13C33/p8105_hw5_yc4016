@@ -68,6 +68,22 @@ homicide_number
 ```
 
 
+```{r}
+baltimore = 
+  homicide_number %>% 
+  filter(city_state == "Baltimore, MD")
+
+baltimore
+
+```
+
+
+```{r}
+prop.test(baltimore %>% pull(total_homicide_unsolved), 
+          baltimore %>% pull(total_homicide)) %>% 
+broom::tidy() 
+```
+
 
 
 
