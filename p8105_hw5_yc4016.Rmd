@@ -130,7 +130,6 @@ norm_results =
 norm_results
 ```
 
-
 #### Plot showing the proportion of times the null was rejected and the true value of mu.
 ```{r}
 plot1 = 
@@ -141,10 +140,25 @@ plot1 =
     mutate (proportion_rejected = p_value_sum / n_sum) %>% 
   ggplot(aes(x = mu, y = proportion_rejected)) + 
   geom_point() + 
-  labs(title = " The proportion of times the null was rejected and the true value of means", 
+  labs(title = " The proportion of times the null was rejected and the true value of mu", 
        x = "The true value of means",
        y = "The proportion of times the null was rejected") 
 
 plot1
+```
+
+#### Plot showing the average estimate of mu_hat and the true value of mu.
+```{r}
+plot2 = 
+  norm_results %>%
+    group_by(mu) %>%
+    summarize(ave_estimate_mu_hat = mean(estimate)) %>%
+    ggplot(aes(x = mu, y = ave_estimate_mu_hat, group = mu)) + 
+    geom_point() +
+    labs(title = "The average estimate of mu_hat and the true value of mu", 
+         x = "The true value of mu", 
+         y = "The average estimate of mu_hat") 
+plot2
+```
 ```
 
