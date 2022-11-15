@@ -101,11 +101,23 @@ plot_each_cities =
   ggplot(aes(x = city_state, y = estimate)) +
   geom_point() +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  geom_errorbar(aes(ymin = conf_low, ymax = conf_high))
-
+  geom_errorbar(aes(ymin = conf_low, ymax = conf_high)) +
+  labs(title = "Estimates and confidence intervals of unsolved homocide for each city",x = "cities") 
 plot_each_cities
 ```
 
+
+# Problem 3
+
+```{r}
+sim_mean_p = function(n=30, mu, sigma = 5) {
+  sim_data = tibble(x = rnorm(n, mean = mu, sd = sigma))
+  sim_data %>% 
+    t.test (mu = 0, alpha = 0.05, conf.level = 0.95) %>% 
+     broom::tidy ()
+}
+sim_mean_p
+```
 
 
 
