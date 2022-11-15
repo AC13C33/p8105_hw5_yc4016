@@ -87,9 +87,23 @@ each_cities =
   mutate(prop_cities = map2(.x = total_homicide_unsolved, .y = total_homicide, ~prop.test(x = .x, n = .y)),
          tidy_cities = map(.x = prop_cities, ~ broom::tidy(.x))) %>% 
   unnest(tidy_cities) %>% 
-  select(-prop_cities, city_state, estimate, conf.low, conf.high) 
+  select(-prop_cities, city_state, estimate, conf.low, conf.high) %>% 
+  janitor::clean_names() 
 
 each_cities
+```
+
+#### Create a plot that shows the estimates and CIs for each city
+```{r}
+plot_each_cities =
+  each_cities %>% 
+  mutate(city_state = fct_reorder(city_state, estimate)) %>% 
+  ggplot(aes(x = city_state, y = estimate)) +
+  geom_point() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  geom_errorbar(aes(ymin = conf_low, ymax = conf_high))
+
+plot_each_cities
 ```
 
 
