@@ -160,5 +160,20 @@ plot2 =
          y = "The average estimate of mu_hat") 
 plot2
 ```
+
+#### Plot showing the average estimate of mu_hat only in samples for which the null was rejectedand the true value of mu.
+```{r}
+plot3 = 
+  norm_results %>%
+    group_by(mu) %>%
+    filter(p.value < 0.05) %>% 
+    summarize(ave_estimate_mu_hat = mean(estimate)) %>%
+    ggplot(aes(x = mu, y = ave_estimate_mu_hat, group = mu)) + 
+    geom_point() + 
+    labs(title = "The average estimate of mu_hat and the true value of mu", 
+         x = "The true value of mu", 
+         y = "The average estimate of mu_hat only in samples for which the null was rejected") 
+plot3
 ```
+
 
