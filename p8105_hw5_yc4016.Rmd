@@ -131,5 +131,20 @@ norm_results
 ```
 
 
+#### Plot showing the proportion of times the null was rejected and the true value of mu.
+```{r}
+plot1 = 
+  norm_results%>%
+    group_by(mu) %>%
+    summarize(n_sum = n(),
+              p_value_sum = sum(p.value < 0.05)) %>% 
+    mutate (proportion_rejected = p_value_sum / n_sum) %>% 
+  ggplot(aes(x = mu, y = proportion_rejected)) + 
+  geom_point() + 
+  labs(title = " The proportion of times the null was rejected and the true value of means", 
+       x = "The true value of means",
+       y = "The proportion of times the null was rejected") 
 
+plot1
+```
 
