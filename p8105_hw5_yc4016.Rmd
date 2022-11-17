@@ -118,10 +118,12 @@ each_cities =
          tidy_cities = map(.x = prop_cities, ~ broom::tidy(.x))) %>% 
   unnest(tidy_cities) %>% 
   select(city_state, estimate, conf.low, conf.high) %>% 
-  janitor::clean_names() 
+  janitor::clean_names() %>% 
+  select(city_state, estimate, conf_low, conf_high) 
   
+each_cities %>% 
+  knitr::kable()
 
-each_cities
 ```
 
 #### Create a plot that shows the estimates and CIs for each city
