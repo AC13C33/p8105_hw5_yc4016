@@ -33,7 +33,7 @@ scale_fill_discrete = scale_fill_viridis_d
 # Problem 1
 
 #### Import dataset
-```{r}
+```{r, message=FALSE}
 full_df = 
   tibble(files = list.files("data/zip_data/"),
          path = str_c("data/zip_data/", files)) %>% 
@@ -162,7 +162,7 @@ norm_results_0 =
   expand_grid(n = 30, 
               mu = 0, 
               sigma = 5,
-              iteration = 1:100) %>% 
+              iteration = 1:5000) %>% 
   mutate(estimate_df = map(mu, ~norm_mean_p(mu=.x))) %>% 
   unnest(estimate_df) 
 
@@ -175,7 +175,7 @@ norm_results =
   expand_grid(n = 30, 
               mu = c(1,2,3,4,5,6),
               sigma = 5,
-              iteration = 1:100) %>% 
+              iteration = 1:5000) %>% 
   mutate(estimate_df = map(mu, ~norm_mean_p(mu=.x))) %>% 
   unnest(estimate_df)
 
