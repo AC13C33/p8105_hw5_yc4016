@@ -105,7 +105,9 @@ baltimore
 
 prop.test(baltimore %>% pull(total_homicide_unsolved), 
           baltimore %>% pull(total_homicide)) %>% 
-broom::tidy() 
+broom::tidy() %>% 
+  select(estimate, conf.low, conf.high) %>%
+  knitr::kable()
 ```
 
 #### Estimate the proportion of unsolved homicides and the confidence interval for each of the cities.
@@ -160,7 +162,7 @@ norm_results_0 =
               sigma = 5,
               iteration = 1:100) %>% 
   mutate(estimate_df = map(mu, ~norm_mean_p(mu=.x))) %>% 
-  unnest(estimate_df)
+  unnest(estimate_df) 
 
 norm_results_0
 ```
@@ -186,10 +188,10 @@ plot1 =
     summarize(sum_all = n(),
               sum_reject = sum(p.value < 0.05)) %>% 
     mutate (proportion_rejected = sum_reject / sum_all) %>% 
-  ggplot(aes(x = mu, y = proportion_rejected)) + 
-  geom_point() + 
-  geom_line() + 
-  labs(title = " The proportion of times the null was rejected and the true value of mu", 
+    ggplot(aes(x = mu, y = proportion_rejected)) + 
+    geom_point() + 
+    geom_line() + 
+    labs(title = "The proportion of times the null was rejected and the true value of mu", 
        x = "The true means",
        y = "The proportion of times the null was rejected") 
 
@@ -231,5 +233,8 @@ plot3 =
 plot3
 ```
 
-* 
+* The sample average of mu_hat across tests for which the null is rejected approximately equal to the true value of mu.
+* When true mean is less than and equal to 3, the average estimate of mu_hat in samples for which the null was rejected is larger than the the average estimate of mu_hat in all. When true mean is larger than and equal to 4, these two value are approximately same. 
+* When sample mean is small, the effect size and power are small.
+* Larger samples results and larger mu_hat could lead the average value of mu_hat approximately equal to the true value of mu.
 
